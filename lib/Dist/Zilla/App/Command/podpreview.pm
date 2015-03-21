@@ -6,7 +6,6 @@ use strict;
 use warnings;
 use 5.010;
 use Dist::Zilla::App -command;
-use Moose::Autobox;
 use App::PodPreview qw(podpreview);
 use List::Util      qw(first);
 use File::Temp      qw(tempfile);
@@ -34,10 +33,10 @@ sub execute
 
     $self->app->chrome->logger->mute;
 
-    $_->before_build for $self->zilla->plugins_with(-BeforeBuild)->flatten;
-    $_->gather_files for $self->zilla->plugins_with(-FileGatherer)->flatten;
-    $_->prune_files  for $self->zilla->plugins_with(-FilePruner)->flatten;
-    $_->munge_files  for $self->zilla->plugins_with(-FileMunger)->flatten;
+    $_->before_build for @{ $self->zilla->plugins_with(-BeforeBuild) };
+    $_->gather_files for @{ $self->zilla->plugins_with(-FileGatherer) };
+    $_->prune_files  for @{ $self->zilla->plugins_with(-FilePruner) };
+    $_->munge_files  for @{ $self->zilla->plugins_with(-FileMunger) };
 
     my $module = $arg->[0];
     my $colons = $module =~ s/::/\//g;
