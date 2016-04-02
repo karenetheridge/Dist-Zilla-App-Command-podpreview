@@ -7,7 +7,7 @@ use warnings;
 use 5.010;
 use Dist::Zilla::App -command;
 use Moose::Autobox;
-use App::PodPreview qw(podpreview);
+use App::PodPreview;
 use List::Util      qw(first);
 use File::Temp      qw(tempfile);
 use Carp            qw(carp croak);
@@ -53,7 +53,7 @@ sub execute
     my ($fh, $filename) = tempfile();
     print $fh $object->content or croak $!;
     close $fh or croak $!;
-    podpreview($filename);
+    App::Podpreview::podpreview($filename);
 }
 
 1;
